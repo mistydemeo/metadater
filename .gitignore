@@ -1,5 +1,8 @@
 # Temporary list file for reference. No need to track this.
-.data\ fields
+datafields
 
 # Don't pay attention to Vim's temp files
 *.swp
+
+# Or Mac OS X's .DS_Store files
+.DS_Store
