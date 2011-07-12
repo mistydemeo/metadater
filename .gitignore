@@ -1,0 +1,5 @@
+# Temporary list file for reference. No need to track this.
+.data\ fields
+
+# Don't pay attention to Vim's temp files
+*.swp
