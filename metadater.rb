@@ -1,12 +1,13 @@
 require 'rubygems' # When running under 1.8. Who knows?
 
-require 'mediainfo'
-require 'mini_exiftool'
-require 'spreadsheet'
+require 'mediainfo' # Capture technical metadata from video
+require 'mini_exiftool' # Capture software metadata from video
+require 'spreadsheet' # Write to spreadsheet
 
 # File-find gem, enables recursively searching a path
 # Note that the Rubygems version of file-find is broken as of 0.3.4
 # Make sure you install file-find from the Github source
+# https://github.com/djberg96/file-find
 require 'file/find' 
 
 # Internal functions and classes
@@ -18,7 +19,7 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # These are the filetypes we consider to be videos
 # All others are not videos and we care nothing for them
 # Note that we will also scan files with no extensions.
-filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
+@@filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
 
 case ARGV[0]
   when nil
@@ -27,6 +28,7 @@ case ARGV[0]
   when String
     # Get base directory to scan
     # This directory and all its subdirectories will be scanned
-    scandir = ARGV[0]
+    scandir = Path.new(ARGV[0])
 end
 
+# @@scandir.scan
