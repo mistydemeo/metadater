@@ -5,9 +5,6 @@ require 'mini_exiftool' # Capture software metadata from video
 require 'spreadsheet' # Write to spreadsheet
 
 # File-find gem, enables recursively searching a path
-# Note that the Rubygems version of file-find is broken as of 0.3.4
-# Make sure you install file-find from the Github source
-# https://github.com/djberg96/file-find
 require 'file/find' 
 
 # Internal functions and classes
@@ -21,6 +18,8 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # Note that we will also scan files with no extensions.
 @@filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
 
+@@files = [] # Let's leave this empty for later
+
 case ARGV[0]
   when nil
     puts "usage: metadater <directory>"
@@ -31,4 +30,4 @@ case ARGV[0]
     scandir = Path.new(ARGV[0])
 end
 
-# @@scandir.scan
+# scandir.scan
