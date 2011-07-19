@@ -6,6 +6,9 @@ class Video < String
   # The array variable is specified when the method is called.
 
   def examine( array )
+    # Let the viewer know what we're up to
+    puts 'Scanning ' + self
+
     # Call the MediaInfo library to examine technical metadata
     info = Mediainfo.new self
 
@@ -13,7 +16,7 @@ class Video < String
     exif = MiniExiftool.new self
 
     @@general   = {
-      :path => f,
+      :path => self,
       :container => info.general.format,
       :video_tracks => info.video.count,
       :audio_tracks => info.audio.count,
@@ -60,7 +63,7 @@ class Video < String
     # Remember, .push is destructive! Use with care.
 
     array.push = {
-      :key => f,              # The file path is the key
+      :key => self,              # The file path is the key
     #  :md5 => TODO,          MD5 isn't implemented yet
       :general => @@general,
       :video => @@video,

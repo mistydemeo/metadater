@@ -9,6 +9,8 @@
 class Path < String
 
   def scan
+    puts 'Scanning files...'
+
     path = File::Find.new(
       :pattern  => "*.{mov,MOV,avi,AVI,mts,MTS,mp4,MP4}", # Ignore @@filetypes until I figure out the correct clever code to use. Right now will *not* return files without extensions, which we need
       :follow   => false,
@@ -23,14 +25,16 @@ class Path < String
     # Examine each file in our @@files array, then
     # produce a new array with their metadata
     @@files.each do |f|
-      f.examine( array )
+      Video.new(f).examine( $metadata )
     end
 
     # OK, we have our metadata in a pretty object now
     # Write to YAML
 
-    File.open( yaml, 'w' ) do |f|
-      f.write(array.to_yaml)
+    File.open( scandir + '/video.yml', 'w' ) do |f|
+      f.write($metadata.to_yaml)
     end
+
+    puts 'YAML written to ' + scandir + '/video.ytml'
   end
 end

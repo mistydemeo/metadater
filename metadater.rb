@@ -19,6 +19,7 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 @@filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
 
 @@files = [] # Let's leave this empty for later
+$metadata = [] # This too
 
 case ARGV[0]
   when nil
