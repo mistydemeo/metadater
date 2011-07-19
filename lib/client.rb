@@ -19,5 +19,9 @@ class Path < String
     path.find{ |f|
       @@files.push(f) # Note that this is destructive.
     }
+
+    @@files.each |f| do
+      f.examine
+    end
   end
 end
