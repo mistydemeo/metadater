@@ -35,6 +35,7 @@ class Video < String
       :codec_id => info.video.codec_id,
       :width => info.video.width,
       :height => info.video.height,
+      :interlaced => info.video.interlaced?
       # :standard => TODO,            Write code to handle this
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
@@ -95,6 +96,12 @@ class Video < String
 
   end
 
+  # Comes up with a nice human-readable video standard,
+  # e.g. 1080i or 720p or summat
+  # Not strictly necessary since we already have the info to
+  # generate this, but it's good for humans, and what's good
+  # for humans is good for robots too.
+
   def standard?
     case info.video[0].height
       when 1080
@@ -105,7 +112,7 @@ class Video < String
             '1080i'
         end
       when 720
-        '720p'
+        '720p' # Pretty sure no one records 720i
       when 480
         case info.video[0].interlaced?
           when true
