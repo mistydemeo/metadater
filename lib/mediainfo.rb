@@ -15,6 +15,8 @@ class Video < String
     @@general   = {
       :path => f,
       :container => info.general.format,
+      :video_tracks => info.video.count,
+      :audio_tracks => info.audio.count,
       :duration => info.general.duration,
       :encoded_date => info.general.encoded_date
     }
@@ -58,7 +60,7 @@ class Video < String
     # Remember, .push is destructive! Use with care.
 
     array.push = {
-      :key => f,
+      :key => f,              # The file path is the key
     #  :md5 => TODO,          MD5 isn't implemented yet
       :general => @@general,
       :video => @@video,
@@ -66,3 +68,5 @@ class Video < String
       :software => @@software
     }
 
+  end
+end
