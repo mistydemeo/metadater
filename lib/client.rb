@@ -22,7 +22,7 @@ class Path < String
 
     # Examine each file in our @@files array, then
     # produce a new array with their metadata
-    @@files.each |f| do
+    @@files.each do |f|
       f.examine( array )
     end
 
