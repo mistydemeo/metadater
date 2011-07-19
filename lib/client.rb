@@ -21,7 +21,7 @@ class Path < String
     }
 
     @@files.each |f| do
-      f.examine
+      f.examine( array )
     end
   end
 end

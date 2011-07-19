@@ -1,6 +1,11 @@
 class Video < String
 
-  def examine
+  # This method creates a hash with all of the desired metadata
+  # That hash then gets pushed onto an array, with one entry for each
+  # file being examined.
+  # The array variable is specified when the method is called.
+
+  def examine( array )
     # Call the MediaInfo library to examine technical metadata
     info = Mediainfo.new self
 
@@ -48,7 +53,7 @@ class Video < String
     # and a new entry in the YAML
     # Remember, .push is destructive! Use with care.
 
-    @@array.push = {
+    array.push = {
       :key => f,
     #  :md5 => TODO,          MD5 isn't implemented yet
       :general => @@general,
