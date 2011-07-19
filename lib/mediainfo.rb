@@ -33,7 +33,7 @@ class Video < String
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       :bitrate_mode => info.video.bitrate_mode,
-      :colour_space => info.video[0]["color_space"]
+      :colour_space => info.video[0]["color_space"],
       :colour_subsampling => info.video[0]["chroma_subsampling"]
     }
 
@@ -44,9 +44,9 @@ class Video < String
       :codec_id => info.audio[0].codec_id,
       :sampling_rate => info.audio[0].sampling_rate,
       :channels => info.audio[0].channels,
-      :bit_depth => info.audio[0]["bit_depth"]
-      :bit_rate => info.audio[0].bit_rate,
-      :bit_rate_mode => info.audio[0].bit_rate_mode
+      :bit_depth => info.audio[0]["bit_depth"],
+      :bitrate => info.audio[0].bit_rate,
+      :bitrate_mode => info.audio[0].bit_rate_mode
     }
 
     @@software  = {
