@@ -57,7 +57,7 @@ class Video < String
       :bit_depth => info.audio[0]["bit_depth"],
       :bitrate => info.audio[0].bit_rate,
       :bitrate_mode => info.audio[0].bit_rate_mode
-    } unless info.audio[0].nil?
+    }
     end
 
     @@software  = {
