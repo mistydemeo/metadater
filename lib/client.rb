@@ -31,10 +31,10 @@ class Path < String
     # OK, we have our metadata in a pretty object now
     # Write to YAML
 
-    File.open( scandir + '/video.yml', 'w' ) do |f|
+    File.open( self + '/video.yml', 'w' ) do |f|
       f.write($metadata.to_yaml)
     end
 
-    puts 'YAML written to ' + scandir + '/video.ytml'
+    puts 'YAML written to ' + self + '/video.ytml'
   end
 end
