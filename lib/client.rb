@@ -20,8 +20,17 @@ class Path < String
       @@files.push(f) # Note that this is destructive.
     }
 
+    # Examine each file in our @@files array, then
+    # produce a new array with their metadata
     @@files.each |f| do
       f.examine( array )
+    end
+
+    # OK, we have our metadata in a pretty object now
+    # Write to YAML
+
+    File.open( yaml, 'w' ) do |f|
+      f.write(array.to_yaml)
     end
   end
 end
