@@ -19,6 +19,8 @@ class Video < String
       :encoded_date => info.general.encoded_date
     }
 
+    # Most videos only contain one video track.
+
     @@video     = {
       :codec => info.video.format,
       :codec_profile => info.video.format_profile,
@@ -29,18 +31,20 @@ class Video < String
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       :bitrate_mode => info.video.bitrate_mode,
-      # :colour_space => TODO,        Can MediaInfo do this?
-      # :colour_subsampling => TODO   Ditto
+      :colour_space => info.video[0]["color_space"]
+      :colour_subsampling => info.video[0]["chroma_subsampling"]
     }
 
+    # We only log metadata from the first audio track,
+    # But we will say how many tracks there are.
     @@audio     = {
-      :codec => info.audio.format,
-      :codec_id => info.audio.codec_id,
-      :sampling_rate => info.audio.sampling_rate,
-      :channels => info.audio.channels,
-      # :bit_depth => TODO,           Ditto
-      :bit_rate => info.audio.bit_rate,
-      :bit_rate_mode => info.audio.bit_rate_mode
+      :codec => info.audio[0].format,
+      :codec_id => info.audio[0].codec_id,
+      :sampling_rate => info.audio[0].sampling_rate,
+      :channels => info.audio[0].channels,
+      :bit_depth => info.audio[0]["bit_depth"]
+      :bit_rate => info.audio[0].bit_rate,
+      :bit_rate_mode => info.audio[0].bit_rate_mode
     }
 
     @@software  = {
