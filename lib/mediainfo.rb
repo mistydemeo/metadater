@@ -94,4 +94,25 @@ class Video < String
     })
 
   end
+
+  def standard?
+    case info.video[0].height
+      when 1080
+        case info.video[0].interlaced?
+          when true
+            '1080p'
+          else
+            '1080i'
+        end
+      when 720
+        '720p'
+      when 480
+        case info.video[0].interlaced?
+          when true
+            '480i'
+          else
+            '480p'
+          end
+      end
+  end
 end
