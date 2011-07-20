@@ -34,7 +34,8 @@ class Video < String
       :video_tracks => info.video.count,
       :audio_tracks => info.audio.count,
       :duration => info.general.duration,
-      :encoded_date => info.general.encoded_date
+      :encoded_date => info.general.encoded_date,
+      :modify_date => info.general.tagged_date
     }
 
     # Most videos only contain one video track.
@@ -56,7 +57,9 @@ class Video < String
       :bitrate => info.video.bit_rate,
       # :bitrate_mode => info.video.bitrate_mode,     Not working for now
       :colour_space => info.video[0]["color_space"],
-      :chroma_subsampling => info.video[0]["chroma_subsampling"]
+      :chroma_subsampling => info.video[0]["chroma_subsampling"],
+      :track_create_date => info.video.encoded_date,
+      :track_modify_date => info.video.tagged_date
     }
     end
 
@@ -72,7 +75,9 @@ class Video < String
       :channels => info.audio[0].channels,
       :bit_depth => info.audio[0]["bit_depth"],
       :bitrate => info.audio[0].bit_rate,
-      :bitrate_mode => info.audio[0].bit_rate_mode
+      :bitrate_mode => info.audio[0].bit_rate_mode,
+      :track_create_date => info.audio[0].encoded_date,
+      :track_modify_date => info.audio[0].tagged_date
     }
     end
 
@@ -85,7 +90,8 @@ class Video < String
 
     @@hardware = {
       :manufacturer => exif.make,
-      :model => exif.model,
+      :model => if exif.model; exif.model; else exif.user_data_prd; end,
+      :firmware => exif.software_version,
       :aperture => exif.aperture,
       :aperture_setting => exif.aperture_setting,
       :shutter_speed => exif.shutter_speed,
@@ -95,7 +101,8 @@ class Video < String
       :image_stabilization => exif.image_stabilization,
       :gps_version_id => exif.gps_version_id,
       :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
-      :gps_map_datum => exif.gps_map_datum
+      :gps_map_datum => exif.gps_map_datum,
+      :sony_nrt_metadata => unless exif.com_sony_bprl_mxf_nrtmetadata.nil?; exif.com_sony_bprl_mxf_nrtmetadata; end
     }
 
 
