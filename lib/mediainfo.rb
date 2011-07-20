@@ -43,7 +43,7 @@ class Video < String
       :bitrate => info.video.bit_rate,
       # :bitrate_mode => info.video.bitrate_mode,     Not working for now
       :colour_space => info.video[0]["color_space"],
-      :colour_subsampling => info.video[0]["chroma_subsampling"]
+      :chroma_subsampling => info.video[0]["chroma_subsampling"]
     }
     end
 
