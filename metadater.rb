@@ -18,7 +18,7 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # Note that we will also scan files with no extensions.
 # @@filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
 
-# @@files = [] # Let's leave this empty for later
+@@files = [] # Let's leave this empty for later
 $metadata = [] # This too
 
 case ARGV[0]
