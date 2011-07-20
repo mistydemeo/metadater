@@ -33,10 +33,12 @@ class Video < String
       :codec => info.video.format,
       :codec_profile => info.video.format_profile,
       :codec_id => info.video.codec_id,
+      :compressor_name => exif.compressor_name,
       :width => info.video.width,
       :height => info.video.height,
+      :frame_rate => info.video.frame_rate,
       :interlaced => info.video.interlaced?
-      # :standard => TODO,            Write code to handle this
+      :standard => Video.new(info.video[0]).standard?,
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       # :bitrate_mode => info.video.bitrate_mode,     Not working for now
@@ -63,6 +65,8 @@ class Video < String
 
     @@software  = {
       :writing_library => info.general.writing_library,
+      :writing_history => exif.history_changed,
+      :writing_history_date => exif.history_when,
       :software => exif.history_software_agent
     }
 
@@ -75,7 +79,10 @@ class Video < String
       :gain => exif.gain,
       :exposure => exif.exposure_program,
       :focus => exif.focus,
-      :image_stabilization => exif.image_stabilization
+      :image_stabilization => exif.image_stabilization,
+      :gps_version_id => exif.gps_version_id,
+      :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
+      :gps_datum => exif.gps_datum
     }
 
 
@@ -103,9 +110,9 @@ class Video < String
   # for humans is good for robots too.
 
   def standard?
-    case info.video[0].height
+    case self.height
       when 1080
-        case info.video[0].interlaced?
+        case self.interlaced?
           when true
             '1080p'
           else
@@ -114,9 +121,9 @@ class Video < String
       when 720
         '720p' # Pretty sure no one records 720i
       when 480
-        case info.video[0].interlaced?
+        case self.interlaced?
           when true
-            '480i'
+            if exif.video_frame_rate = 29.97; '60i'; else '480i'; end
           else
             '480p'
           end
