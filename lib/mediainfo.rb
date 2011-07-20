@@ -102,7 +102,7 @@ class Video < String
       :gps_version_id => exif.gps_version_id,
       :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
       :gps_map_datum => exif.gps_map_datum,
-      :sony_nrt_metadata => unless exif.com_sony_bprl_mxf_nrtmetadata.nil?; exif.com_sony_bprl_mxf_nrtmetadata; end
+      :sony_nrt_metadata => exif.com_sony_bprl_mxf_nrtmetadata # Can I hide this field when not relevant?
     }
 
 
