@@ -18,6 +18,7 @@ class Video < String
     @@general   = {
 #      :path => self,
       :container => info.general.format,
+      :format_info => info.general.format_info,
       :video_tracks => info.video.count,
       :audio_tracks => info.audio.count,
       :duration => info.general.duration,
