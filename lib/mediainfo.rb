@@ -38,7 +38,7 @@ class Video < String
       :height => info.video.height,
       :frame_rate => info.video.frame_rate,
       :interlaced => info.video.interlaced?,
-      :standard => Video.new(info.video[0]).standard?,
+      :standard => info.video[0].standard?,
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       # :bitrate_mode => info.video.bitrate_mode,     Not working for now
@@ -82,7 +82,7 @@ class Video < String
       :image_stabilization => exif.image_stabilization,
       :gps_version_id => exif.gps_version_id,
       :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
-      :gps_datum => exif.gps_datum
+      :gps_map_datum => exif.gps_map_datum
     }
 
 
@@ -102,12 +102,15 @@ class Video < String
     })
 
   end
+end
 
   # Comes up with a nice human-readable video standard,
   # e.g. 1080i or 720p or summat
   # Not strictly necessary since we already have the info to
   # generate this, but it's good for humans, and what's good
   # for humans is good for robots too.
+
+class Mediainfo::VideoStream
 
   def standard?
     case self.height
@@ -123,7 +126,7 @@ class Video < String
       when 480
         case self.interlaced?
           when true
-            if exif.video_frame_rate = 29.97; '60i'; else '480i'; end
+            if self.framerate == 29.97; '60i'; else '480i'; end
           else
             '480p'
           end
