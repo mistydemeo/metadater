@@ -35,6 +35,6 @@ class Path < String
       f.write($metadata.to_yaml)
     end
 
-    puts 'YAML written to ' + self + '/video.ytml'
+    puts 'YAML written to ' + self + '/video.yml'
   end
 end
