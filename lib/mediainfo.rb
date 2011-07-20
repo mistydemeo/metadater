@@ -15,6 +15,18 @@ class Video < String
     # Call ExifTool to examine software metadata
     exif = MiniExiftool.new self
 
+    # Width and height exist in multiple places and we can get stuck
+    # without them!!
+    # Let's suss them out here and use the local variables elsewhere
+
+    if info.video[0].nil? # We can't get resolution from a video with no video
+      @width = nil
+      @height = nil
+    else
+      @width  = if info.video[0].width;  Resolution.new(info.video[0].width);   else Resolution.new(exif.image_width);  end
+      @height = if info.video[0].height; Resolution.new(info.video[0].height);  else Resolution.new(exif.image_height); end
+    end
+
     @@general   = {
 #      :path => self,
       :container => info.general.format,
@@ -35,11 +47,11 @@ class Video < String
       :codec_profile => info.video.format_profile,
       :codec_id => info.video.codec_id,
       :compressor_name => exif.compressor_name,
-      :width => info.video.width,
-      :height => info.video.height,
-      :frame_rate => info.video.frame_rate,
+      :width => @width,
+      :height => @height,
+      :frame_rate => info.video.framerate,
       :interlaced => info.video.interlaced?,
-      :standard => info.video[0].standard?,
+      :standard => @height.standard?( info.video.interlaced?, info.video.framerate ),
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       # :bitrate_mode => info.video.bitrate_mode,     Not working for now
@@ -111,13 +123,13 @@ end
   # generate this, but it's good for humans, and what's good
   # for humans is good for robots too.
 
-class Mediainfo::VideoStream
+class Resolution < DelegateClass(Fixnum)
 
-  def standard?
-    case self.height
+  def standard?( interlace, framerate )
+    case self.to_i
       when 1080
-        case self.interlaced?
-          when true
+        case interlace 
+          when false
             '1080p'
           else
             '1080i'
@@ -125,9 +137,9 @@ class Mediainfo::VideoStream
       when 720
         '720p' # Pretty sure no one records 720i
       when 480
-        case self.interlaced?
+        case interlace
           when true
-            if self.framerate == 29.97; '60i'; else '480i'; end
+            if framerate == 29.97; '60i'; else '480i'; end
           else
             '480p'
           end
