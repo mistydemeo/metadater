@@ -37,7 +37,7 @@ class Video < String
       :width => info.video.width,
       :height => info.video.height,
       :frame_rate => info.video.frame_rate,
-      :interlaced => info.video.interlaced?
+      :interlaced => info.video.interlaced?,
       :standard => Video.new(info.video[0]).standard?,
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
