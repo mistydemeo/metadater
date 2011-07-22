@@ -27,6 +27,18 @@ class Video < String
       @height = if info.video[0].height; Resolution.new(info.video[0].height);  else Resolution.new(exif.image_height); end
     end
 
+    # XDCAM videos in QT wrappers include a giant XML string with data
+    # not represented elsewhere in the Exif
+    # Decode it if present for a couple values we want
+
+    unless exif.com_sony_bprl_mxf_nrtmetadata.nil?
+      xml = XmlSimple.xml_in( exif.com_sony_bprl_mxf_nrtmetadata )
+
+      @manufacturer = xml['Device'][0]['manufacturer']
+      @serial       = xml['Device'][0]['serialNo']
+      @firmware     = xml['Device'][0]['Element']
+    end
+
     @@general   = {
 #      :path => self,
       :container => info.general.format,
@@ -89,9 +101,11 @@ class Video < String
     }
 
     @@hardware = {
-      :manufacturer => exif.make,
+      :manufacturer => if @manufacturer.nil?; exif.make; else @manufacturer; end,
       :model => if exif.model; exif.model; else exif.user_data_prd; end,
-      :firmware => exif.software_version,
+      :serial_no => if @serial; @serial; else nil; end,
+#      :firmware => exif.software_version,
+      :firmware => @firmware,
       :aperture => exif.aperture,
       :aperture_setting => exif.aperture_setting,
       :shutter_speed => exif.shutter_speed,
@@ -102,7 +116,7 @@ class Video < String
       :gps_version_id => exif.gps_version_id,
       :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
       :gps_map_datum => exif.gps_map_datum,
-      :sony_nrt_metadata => exif.com_sony_bprl_mxf_nrtmetadata # Can I hide this field when not relevant?
+#      :sony_nrt_metadata => exif.com_sony_bprl_mxf_nrtmetadata # Leave this out
     }
 
 

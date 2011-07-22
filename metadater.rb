@@ -3,6 +3,7 @@ require 'rubygems' # When running under 1.8. Who knows?
 require 'mediainfo' # Capture technical metadata from video. Requires MediaInfo
 require 'mini_exiftool' # Capture software metadata from video. Requires ExifTool
 require 'spreadsheet' # Write to spreadsheet
+require 'xmlsimple' # Read data from Sony's XML Exif
 
 # File-find gem, enables recursively searching a path
 require 'file/find' 
