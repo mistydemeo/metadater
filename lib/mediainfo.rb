@@ -41,6 +41,7 @@ class Video < String
 
     @@general   = {
 #      :path => self,
+      :movie_name => info.general[0]['movie_name'],
       :container => info.general.format,
       :format_info => info.general.format_info,
       :video_tracks => info.video.count,
@@ -103,7 +104,7 @@ class Video < String
     @@hardware = {
       :manufacturer => if @manufacturer.nil?; exif.make; else @manufacturer; end,
       :model => if exif.model; exif.model; else exif.user_data_prd; end,
-      :serial_no => if @serial; @serial; else nil; end,
+      :serial_no => @serial if @serial
 #      :firmware => exif.software_version,
       :firmware => @firmware,
       :aperture => exif.aperture,
