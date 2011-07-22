@@ -132,7 +132,8 @@ class Video < String
       :video => @@video,
       :audio => @@audio,
       :software => @@software,
-      :hardware => @@hardware
+      :hardware => @@hardware,
+      :exiftool_version => exif.exiftool_version
     })
 
   end
