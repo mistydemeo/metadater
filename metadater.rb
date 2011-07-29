@@ -5,9 +5,6 @@ require 'mini_exiftool' # Capture software metadata from video. Requires ExifToo
 require 'spreadsheet' # Write to spreadsheet
 require 'xmlsimple' # Read data from Sony's XML Exif
 
-# File-find gem, enables recursively searching a path
-require 'file/find' 
-
 # Internal functions and classes
 
 require File.dirname(__FILE__) + '/lib/mediainfo.rb'
@@ -17,7 +14,7 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # These are the filetypes we consider to be videos
 # All others are not videos and we care nothing for them
 # Note that we will also scan files with no extensions.
-# @@filetypes = [ 'mov', 'avi', 'mp4', 'mts' ]
+@@filetypes = [ '.mov', '.avi', '.mp4', '.mts' ]
 
 @@files = [] # Let's leave this empty for later
 $metadata = [] # This too

@@ -9,18 +9,27 @@
 class Path < String
 
   def scan
+
+    # Blank @@files in case it had something in it
+    @@files = []
+    
     puts 'Scanning files...'
 
-    path = File::Find.new(
-      :pattern  => "*.{mov,MOV,avi,AVI,mts,MTS,mp4,MP4}", # Ignore @@filetypes until I figure out the correct clever code to use. Right now will *not* return files without extensions, which we need
-      :follow   => false,
-      :ftype    => "file",
-      :path     => self.to_s
-    )
+    Find.find( self.to_s ) do |path|
+      # Skip dirs, symlinks, and .DS_Store noise
+      case
+      when File.directory?( path ), File.symlink?( path ), path.include?( 'DS_Store' )
+        next
+      end
 
-    path.find{ |f|
-      @@files.push(f) # Note that this is destructive.
-    }
+      case File.extname( path ).downcase
+      when *@@filetypes, ''
+        @@files.push path
+      else
+        next
+      end
+    end
+        
 
     # Examine each file in our @@files array, then
     # produce a new array with their metadata
