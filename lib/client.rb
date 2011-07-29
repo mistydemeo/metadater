@@ -18,7 +18,7 @@ class Path < String
     Find.find( self.to_s ) do |path|
       # Skip dirs, symlinks, and .DS_Store noise
       case
-      when File.directory?( path ), File.symlink?( path ), path.include?( 'DS_Store' )
+      when File.directory?( path ), File.symlink?( path ), File.basename( path )[0] == '.'
         next
       end
 
