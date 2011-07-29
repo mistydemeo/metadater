@@ -4,6 +4,7 @@ require 'mediainfo' # Capture technical metadata from video. Requires MediaInfo
 require 'mini_exiftool' # Capture software metadata from video. Requires ExifTool
 require 'spreadsheet' # Write to spreadsheet
 require 'xmlsimple' # Read data from Sony's XML Exif
+require 'find' # Ruby's Find.find method
 
 # Internal functions and classes
 
