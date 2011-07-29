@@ -7,7 +7,7 @@ class Video < String
 
   def examine( array )
     # Let the viewer know what we're up to
-    puts 'Scanning ' + self
+    puts "Scanning #{self}"
 
     # Call the MediaInfo library to examine technical metadata
     info = Mediainfo.new self
