@@ -40,7 +40,6 @@ class Video < String
     end
 
     @@general   = {
-#      :path => self,
       :movie_name => info.general[0]['movie_name'],
       :container => info.general.format,
       :format_info => info.general.format_info,
@@ -105,7 +104,6 @@ class Video < String
       :manufacturer => if @manufacturer.nil?; exif.make; else @manufacturer; end,
       :model => if exif.model; exif.model; else exif.user_data_prd; end,
       :serial_no => @serial if @serial
-#      :firmware => exif.software_version,
       :firmware => @firmware,
       :aperture => exif.aperture,
       :aperture_setting => exif.aperture_setting,
@@ -117,7 +115,6 @@ class Video < String
       :gps_version_id => exif.gps_version_id,
       :gps_status => if exif.gps_status == 'Measurement Void'; nil; else exif.gps_status; end,
       :gps_map_datum => exif.gps_map_datum,
-#      :sony_nrt_metadata => exif.com_sony_bprl_mxf_nrtmetadata # Leave this out
     }
 
 
