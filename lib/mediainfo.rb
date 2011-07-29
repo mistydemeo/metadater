@@ -103,7 +103,7 @@ class Video < String
     @@hardware = {
       :manufacturer => if @manufacturer.nil?; exif.make; else @manufacturer; end,
       :model => if exif.model; exif.model; else exif.user_data_prd; end,
-      :serial_no => @serial if @serial
+      :serial_no => @serial,
       :firmware => @firmware,
       :aperture => exif.aperture,
       :aperture_setting => exif.aperture_setting,
