@@ -1,10 +1,5 @@
-# Adventures in word wrapping. I found this code online but it's not working
-# Don't use for now
-# class String
-#   def wrap(width=78)
-#     self.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
-#   end
-# end
+# This file contains code for "internal" methods - 
+# it doesn't interface with external libs
 
 class Path < String
 

@@ -1,3 +1,6 @@
+# This file contains methods which depend heavily on external
+# libs such as mediainfo and mini_exiftool
+
 class Video < String
 
   # This method creates a hash with all of the desired metadata
