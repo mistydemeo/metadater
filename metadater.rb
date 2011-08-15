@@ -23,7 +23,8 @@ $metadata = [] # This too
 case ARGV[0]
   when nil
     puts "usage: metadater <directory>"
-    puts "metadater will scan the specified directory and produce a YAML and XLS output at the end of the process."
+    puts "metadater will scan the specified directory and produce YAML output at the end"
+    puts "of the process."
   when String
     # Get base directory to scan
     # This directory and all its subdirectories will be scanned
