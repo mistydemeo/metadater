@@ -67,7 +67,7 @@ class Video < String
       :standard => @height.standard?( info.video.interlaced?, info.video.framerate ),
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
-      # :bitrate_mode => info.video.bitrate_mode,     Not working for now
+      :bitrate_mode => info.video.bit_rate_mode,
       :colour_space => info.video[0]["color_space"],
       :chroma_subsampling => info.video[0]["chroma_subsampling"],
       :track_create_date => info.video.encoded_date,
