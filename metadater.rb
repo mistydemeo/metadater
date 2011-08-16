@@ -8,7 +8,7 @@ require 'find'          # Ruby's Find.find method
 
 # Internal functions and classes
 
-require File.dirname(__FILE__) + '/lib/mediainfo.rb'
+require File.dirname(__FILE__) + '/lib/metadata.rb'
 require File.dirname(__FILE__) + '/lib/client.rb'
 
 # These are the filetypes we consider to be videos
