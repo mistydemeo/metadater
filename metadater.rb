@@ -25,6 +25,8 @@ case ARGV[0]
     puts "usage: metadater <directory>"
     puts "metadater will scan the specified directory and produce YAML output at the end"
     puts "of the process."
+
+    exit
   when String
     # Get base directory to scan
     # This directory and all its subdirectories will be scanned
