@@ -18,7 +18,7 @@ Requirements
   - [xml-simple](http://rubygems.org/gems/xml-simple):
     xml-simple is used to process embedded XML in one edge case. Not usually used.
 
-In Mac OS X or Linux, installing the gem dependencies is as simple as typing gem install mediainfo mini\_exiftool xmlsimple
+In Mac OS X or Linux, installing the gem dependencies is as simple as typing *gem install mediainfo mini\_exiftool xmlsimple*
 
 Use your preferred package manager to install the [MediaInfo](http://mediainfo.sourceforge.net/en) and [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/) utilities.
 
@@ -27,7 +27,7 @@ Usage
 
 ruby metadater.rb \<directory\>
 
-Where \<directory\> is the name of the directory to scan. The search is recursive - any subdirectories within the specified directory will also be scanned.
+Where \<directory\> is the name of the directory to scan. The search is recursive - any subdirectories within the specified directory will also be scanned. When the search completes, a file named video.yml will be dropped into the scanned directory.
 
 Options: none, for now.
 
