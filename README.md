@@ -9,7 +9,7 @@ Requirements
 ------------
 
 - Ruby:
-  Ruby 1.8.7 and 1.9.2 are supported. It's primarily been tested against 1.9.2, so let me know if there are any issues with 1.8.
+  Ruby 1.8.7 and 1.9.2 are supported. It's primarily been tested against 1.9.2, so let me know if there are any issues with 1.8. When using 1.8, ensure that RubyGems is installed too.
 - The following gems:
   - [mediainfo](http://rubygems.org/gems/mediainfo):
     The mediainfo gem interfaces with the commandline MediaInfo utility to extract video metadata. The MediaInfo tool must be installed and must be in your path.
