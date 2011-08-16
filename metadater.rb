@@ -5,6 +5,7 @@ require 'mini_exiftool' # Capture software metadata from video. Requires ExifToo
 # require 'spreadsheet'   Spreadsheet output not implemented yet 
 require 'xmlsimple'     # Read data from Sony's XML Exif
 require 'find'          # Ruby's Find.find method
+require 'yaml'          # Adds read + write for YAML
 
 # Internal functions and classes
 
