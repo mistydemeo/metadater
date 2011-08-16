@@ -18,7 +18,7 @@ class Path < String
       end
 
       case File.extname( path ).downcase
-      when *@@filetypes, ''
+      when '', *@@filetypes
         @@files.push path
       else
         next

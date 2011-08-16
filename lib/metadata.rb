@@ -126,7 +126,7 @@ class Video < String
     # and a new entry in the YAML
     # Remember, .push is destructive! Use with care.
 
-    array.push ({
+    array.push({
       :file => self.to_s,              # The file path is the key
     #  :md5 => TODO,          MD5 isn't implemented yet
       :general => @@general,
