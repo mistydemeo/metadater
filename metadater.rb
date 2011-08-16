@@ -15,7 +15,7 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # These are the filetypes we consider to be videos
 # All others are not videos and we care nothing for them
 # Note that we will also scan files with no extensions.
-@@filetypes = [ '.mov', '.avi', '.mp4', '.mts', '.mkv' ]
+@@filetypes = [ '.mov', '.avi', '.mp4', '.m4v', '.flv', '.mpg', '.mpeg', 'm2v', '.mts', '.mkv', '.swf' ]
 
 @@files = []    # Let's leave this empty for later
 $metadata = []  # This too
