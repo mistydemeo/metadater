@@ -134,6 +134,7 @@ class Video < String
       :audio => @@audio,
       :software => @@software,
       :hardware => @@hardware,
+      :mediainfo_version => Mediainfo.version,
       :exiftool_version => exif.exiftool_version
     })
 
