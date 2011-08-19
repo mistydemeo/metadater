@@ -45,4 +45,4 @@ TODO / Caveats
 License
 -------
 
-License is forthcoming. It will be permissive ;)
+Metadater is licensed under the 2-clause BSD license ("FreeBSD License"). For the text of the license, see LICENSE.
