@@ -3,9 +3,9 @@ require 'rubygems'      # When running under 1.8. Who knows?
 require 'mediainfo'     # Capture technical metadata from video. Requires MediaInfo
 require 'mini_exiftool' # Capture software metadata from video. Requires ExifTool
 # require 'spreadsheet'   Spreadsheet output not implemented yet 
-require 'xmlsimple'     # Read data from Sony's XML Exif
 require 'find'          # Ruby's Find.find method
 require 'yaml'          # Adds read + write for YAML
+require 'digest/md5'    # MD5 hashes
 
 # Internal functions and classes
 

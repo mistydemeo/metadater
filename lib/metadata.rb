@@ -35,6 +35,8 @@ class Video < String
     # Decode it if present for a couple values we want
 
     unless exif.com_sony_bprl_mxf_nrtmetadata.nil?
+      require 'xmlsimple'
+
       xml = XmlSimple.xml_in( exif.com_sony_bprl_mxf_nrtmetadata )
 
       @manufacturer = xml['Device'][0]['manufacturer']
@@ -128,7 +130,7 @@ class Video < String
 
     array.push({
       :file => self.to_s,              # The file path is the key
-    #  :md5 => TODO,          MD5 isn't implemented yet
+#      :md5 => Digest::MD5.hexdigest( IO.binread( self, 1048576 ) ), # hashes only the first megabyte by default
       :general => @@general,
       :video => @@video,
       :audio => @@audio,
