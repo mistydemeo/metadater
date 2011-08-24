@@ -23,8 +23,13 @@ $metadata = []  # This too
 case ARGV[0]
   when nil
     puts "usage: metadater <directory>"
+    puts
     puts "metadater will scan the specified directory and produce YAML output at the end"
     puts "of the process."
+    puts
+    puts "Options:"
+    puts "    --no-hash     Do not calculate an MD5 hash for the scanned files"
+    puts "    --full-hash   Hash the complete file. This may take a very long time"
 
     exit
   when String

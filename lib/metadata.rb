@@ -122,6 +122,9 @@ class Video < String
       :gps_map_datum => exif.gps_map_datum
     }
 
+    # Produce MD5. This is usually *not* a secure identifier against corruption
+    # because default behaviour is to hash only part of a file
+    md5 = self.heuristic_hash
 
     # Push the hash onto the array as a new entry
     # Each new line in the array forms a new row in the spreadsheet,
@@ -130,7 +133,7 @@ class Video < String
 
     array.push({
       :file => self.to_s,              # The file path is the key
-#      :md5 => Digest::MD5.hexdigest( IO.binread( self, 1048576 ) ), # hashes only the first megabyte by default
+      :md5 => md5,
       :general => @@general,
       :video => @@video,
       :audio => @@audio,
@@ -141,6 +144,27 @@ class Video < String
     })
 
   end
+
+  # Calculates a hash for the video. By default this only scans 
+  # portions of the file, because large videos on shared folders 
+  # will tend to be very very big and take forever to scan
+  # Do *not* rely on these partial hashes to identify corruption!!
+  def heuristic_hash
+
+    if File.size?( self ).nil?
+      return nil 
+    elsif ARGV.include? '--no-hash'     # Don't record a hash
+      return 'not recorded'
+    elsif ARGV.include? '--full-hash'   # Hash the entire file, no matter how long it takes
+      return Digest::MD5.hexdigest IO.binread( self )
+    elsif File.size?( self ) < 6291456  # File is too small to seek to 5MB, so hash the whole thing
+      return Digest::MD5.hexdigest IO.binread( self )
+    else
+      return Digest::MD5.hexdigest File.open( self, 'rb' ) { |f| f.seek 5242880; f.read 1048576 }
+    end
+
+  end
+
 end
 
   # Comes up with a nice human-readable video standard,
