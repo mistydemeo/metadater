@@ -5,7 +5,7 @@ require 'mini_exiftool' # Capture software metadata from video. Requires ExifToo
 # require 'spreadsheet'   Spreadsheet output not implemented yet 
 require 'find'          # Ruby's Find.find method
 require 'yaml'          # Adds read + write for YAML
-require 'digest/md5'    # MD5 hashes
+require 'digest/md5' unless ARGV.include? '--no-hash'
 
 # Internal functions and classes
 
