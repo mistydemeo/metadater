@@ -1,33 +1,37 @@
 # This file contains methods which depend heavily on external
 # libs such as mediainfo and mini_exiftool
 
-class Video < String
+class Video
 
-  # This method creates a hash with all of the desired metadata
-  # That hash then gets pushed onto an array, with one entry for each
-  # file being examined.
-  # The array variable is specified when the method is called.
+  attr_accessor :file, :md5, :general, :video, :audio, :software, :hardware, :mediainfo_version, :exiftool_version
 
-  def examine( array )
+  # This method creates an object with all of the desired metadata
+  def initialize( path )
     # Let the viewer know what we're up to
-    puts "Scanning #{self}"
+    puts "Scanning #{path}"
+
+    @file = path.to_s
+    
+    # Produce MD5. This is usually *not* a secure identifier against corruption
+    # because default behaviour is to hash only part of a file
+    @md5 = heuristic_hash( path )
 
     # Call the MediaInfo library to examine technical metadata
-    info = Mediainfo.new self
+    info = Mediainfo.new path
 
     # Call ExifTool to examine software metadata
-    exif = MiniExiftool.new self
+    exif = MiniExiftool.new path
 
     # Width and height exist in multiple places and we can get stuck
     # without them!!
     # Let's suss them out here and use the local variables elsewhere
 
     if info.video[0].nil? # We can't get resolution from a video with no video
-      @width = nil
-      @height = nil
+      width = nil
+      height = nil
     else
-      @width  = if info.video[0].width;  Resolution.new(info.video[0].width);   else Resolution.new(exif.image_width);  end
-      @height = if info.video[0].height; Resolution.new(info.video[0].height);  else Resolution.new(exif.image_height); end
+      width  = if info.video[0].width;  Resolution.new(info.video[0].width);   else Resolution.new(exif.image_width);  end
+      height = if info.video[0].height; Resolution.new(info.video[0].height);  else Resolution.new(exif.image_height); end
     end
 
     # XDCAM videos in QT wrappers include a giant XML string with data
@@ -39,12 +43,12 @@ class Video < String
 
       xml = XmlSimple.xml_in( exif.com_sony_bprl_mxf_nrtmetadata )
 
-      @manufacturer = xml['Device'][0]['manufacturer']
-      @serial       = xml['Device'][0]['serialNo']
-      @firmware     = xml['Device'][0]['Element']
+      manufacturer = xml['Device'][0]['manufacturer']
+      serial       = xml['Device'][0]['serialNo']
+      firmware     = xml['Device'][0]['Element']
     end
 
-    @@general   = {
+    @general   = {
       :movie_name => info.general[0]['movie_name'],
       :container => info.general.format,
       :format_info => info.general.format_info,
@@ -58,18 +62,18 @@ class Video < String
     # Most videos only contain one video track.
 
     if info.video[0].nil?
-      @@video = nil
+      @video = nil
     else
-    @@video     = {
+    @video     = {
       :codec => info.video.format,
       :codec_profile => info.video.format_profile,
       :codec_id => info.video.codec_id,
       :compressor_name => exif.compressor_name,
-      :width => @width,
-      :height => @height,
+      :width => width,
+      :height => height,
       :frame_rate => info.video.framerate,
       :interlaced => info.video.interlaced?,
-      :standard => @height.standard?( info.video.interlaced?, info.video.framerate ),
+      :standard => height.standard?( info.video.interlaced?, info.video.framerate ),
       :aspect_ratio => info.video.display_aspect_ratio,
       :bitrate => info.video.bit_rate,
       :bitrate_mode => info.video.bit_rate_mode,
@@ -83,9 +87,9 @@ class Video < String
     # We only log metadata from the first audio track,
     # But we will say how many tracks there are.
     if info.audio[0].nil?
-      @@audio = nil
+      @audio = nil
     else
-    @@audio     = {
+    @audio     = {
       :codec => info.audio[0].format,
       :codec_id => info.audio[0].codec_id,
       :sampling_rate => info.audio[0].sampling_rate,
@@ -98,18 +102,18 @@ class Video < String
     }
     end
 
-    @@software  = {
+    @software  = {
       :writing_library => info.general.writing_library,
       :writing_history => exif.history_changed,
       :writing_history_date => exif.history_when,
       :software => exif.history_software_agent
     }
 
-    @@hardware = {
-      :manufacturer => if @manufacturer.nil?; exif.make; else @manufacturer; end,
+    @hardware = {
+      :manufacturer => if manufacturer.nil?; exif.make; else manufacturer; end,
       :model => if exif.model; exif.model; else exif.user_data_prd; end,
-      :serial_no => @serial,
-      :firmware => @firmware,
+      :serial_no => serial,
+      :firmware => firmware,
       :aperture => exif.aperture,
       :aperture_setting => exif.aperture_setting,
       :shutter_speed => exif.shutter_speed,
@@ -122,26 +126,8 @@ class Video < String
       :gps_map_datum => exif.gps_map_datum
     }
 
-    # Produce MD5. This is usually *not* a secure identifier against corruption
-    # because default behaviour is to hash only part of a file
-    md5 = self.heuristic_hash
-
-    # Push the hash onto the array as a new entry
-    # Each new line in the array forms a new row in the spreadsheet,
-    # and a new entry in the YAML
-    # Remember, .push is destructive! Use with care.
-
-    array.push({
-      :file => self.to_s,              # The file path is the key
-      :md5 => md5,
-      :general => @@general,
-      :video => @@video,
-      :audio => @@audio,
-      :software => @@software,
-      :hardware => @@hardware,
-      :mediainfo_version => Mediainfo.version,
-      :exiftool_version => exif.exiftool_version
-    })
+    @mediainfo_version = Mediainfo.version
+    @exiftool_version = exif.exiftool_version
 
   end
 
@@ -149,18 +135,18 @@ class Video < String
   # portions of the file, because large videos on shared folders 
   # will tend to be very very big and take forever to scan
   # Do *not* rely on these partial hashes to identify corruption!!
-  def heuristic_hash
+  def heuristic_hash( path )
 
-    if File.size?( self ).nil?
+    if File.size?( path ).nil?
       return nil 
     elsif ARGV.include? '--no-hash'     # Don't record a hash
       return 'not recorded'
     elsif ARGV.include? '--full-hash'   # Hash the entire file, no matter how long it takes
-      return Digest::MD5.hexdigest IO.binread( self )
-    elsif File.size?( self ) < 6291456  # File is too small to seek to 5MB, so hash the whole thing
-      return Digest::MD5.hexdigest IO.binread( self )
+      return Digest::MD5.hexdigest IO.binread( path )
+    elsif File.size?( path ) < 6291456  # File is too small to seek to 5MB, so hash the whole thing
+      return Digest::MD5.hexdigest IO.binread( path )
     else
-      return Digest::MD5.hexdigest File.open( self, 'rb' ) { |f| f.seek 5242880; f.read 1048576 }
+      return Digest::MD5.hexdigest File.open( path, 'rb' ) { |f| f.seek 5242880; f.read 1048576 }
     end
 
   end

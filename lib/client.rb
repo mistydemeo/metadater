@@ -4,13 +4,9 @@
 class Path < String
 
   def scan
-
-    # Blank @@files in case it had something in it
-    @@files = []
-    
     puts 'Scanning files...'
 
-    Find.find( self.to_s ) do |path|
+    files = Find.find( self.to_s ).collect do |path|
       # Skip dirs, symlinks, and .DS_Store noise
       case
       when File.directory?( path ), File.symlink?( path ), File.basename( path )[0] == '.'
@@ -19,26 +15,22 @@ class Path < String
 
       case File.extname( path ).downcase
       when '', *@@filetypes
-        @@files.push path
+        path
       else
         next
       end
-    end
-        
+    end.compact!
 
     # Examine each file in our @@files array, then
     # produce a new array with their metadata
-    @@files.each do |f|
-      Video.new(f).examine( $metadata )
-    end
+    videos = files.each.collect { |f| Video.new(f) }
 
     # OK, we have our metadata in a pretty object now
     # Write to YAML
 
-    File.open( self + '/video.yml', 'w' ) do |f|
-      f.write($metadata.to_yaml)
-    end
+    File.open( self + '/video.yml', 'w' ).write videos.to_yaml
 
     puts "YAML written to #{self}/video.yml"
   end
+
 end

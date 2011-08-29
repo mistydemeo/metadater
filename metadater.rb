@@ -17,9 +17,6 @@ require File.dirname(__FILE__) + '/lib/client.rb'
 # Note that we will also scan files with no extensions.
 @@filetypes = [ '.mov', '.avi', '.mp4', '.m4v', '.flv', '.mpg', '.mpeg', 'm2v', '.mts', '.mkv', '.swf' ]
 
-@@files = []    # Let's leave this empty for later
-$metadata = []  # This too
-
 case ARGV[0]
   when nil
     puts "usage: metadater <directory>"
@@ -35,7 +32,7 @@ case ARGV[0]
   when String
     # Get base directory to scan
     # This directory and all its subdirectories will be scanned
-    scandir = Path.new(ARGV[0])
+    scandir = Path.new( ARGV[0].chomp '/' )
 end
 
 scandir.scan
