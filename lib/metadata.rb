@@ -151,6 +151,21 @@ class Video
 
   end
 
+  def to_hash
+    return {
+      :file => @file,
+      :md5 => @md5,
+      :general => @general,
+      :video => @video,
+      :audio => @audio,
+      :software => @software,
+      :hardware => @hardware,
+      :mediainfo_version => @mediainfo_version,
+      :exiftool_version => @exiftool_version
+    }
+  end
+
+
 end
 
   # Comes up with a nice human-readable video standard,
