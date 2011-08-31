@@ -43,7 +43,7 @@ TODO / Caveats
 - The supported extensions are hardcoded right now. These should be a configurable option.
 - The camera-related Exif features contain a number of Sony device-specific hacks, which kind of sucks. This should be user-configurable, or another way should be found to capture all of this data regardless of device.
 - Fix Ruby 1.8-specific issues.
-  - Metadata is logged in 1.8, but fields in the YAML are in the wrong order
+  - Ruby 1.8 hashes are unordered, so fields are in alphabetical rather than logical order in the output YAML
   - Non-video files which begin with a period are not skipped in 1.8
 
 License
