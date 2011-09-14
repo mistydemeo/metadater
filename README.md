@@ -37,7 +37,7 @@ Options:
 TODO / Caveats
 --------------
 
-- Output is only to YAML right now. Spreadsheet support is coming, other formats by request.
+- Output is only to YAML right now. Report generation is coming, other formats by request.
 - By default, the MD5 is hashed for a one-megabyte section beginning 5MB into the file. This is *not* a secure method of identifying corruption, and is meant only as a convenience for identifying files in conjunction with filesize. This option was chosen because calculating complete hashes for multi-gigabyte videos can take hours, especially if they are on a device with limited read speed such as a network drive.
 - There are no options beyond MD5-related options, but we could add some.
 - The supported extensions are hardcoded right now. These should be a configurable option.
