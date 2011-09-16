@@ -27,17 +27,19 @@ Usage
 
 ruby metadater.rb \<directory\> [options]
 
-Where \<directory\> is the name of the directory to scan. The search is recursive - any subdirectories within the specified directory will also be scanned. When the search completes, a file named video.yml will be dropped into the scanned directory.
+Where \<directory\> is the name of the directory to scan. The search is recursive - any subdirectories within the specified directory will also be scanned. When the search completes, a file named video.yml and/or video.json will be dropped into the scanned directory.
 
 Options:
 
 --no-hash   Do not calculate hashes for videos<br />
 --full-hash Calculate the MD5 hash using the video's full data, rather than part of it. Note that this may be *very* slow.
+--json      Write JSON output. This is faster to write and to parse, but far less human-readable.
+--no-yaml   Skip writing YAML output.
 
 TODO / Caveats
 --------------
 
-- Output is only to YAML right now. Report generation is coming, other formats by request.
+- Output is only to YAML and JSON right now. Report generation is coming, other formats by request.
 - By default, the MD5 is hashed for a one-megabyte section beginning 5MB into the file. This is *not* a secure method of identifying corruption, and is meant only as a convenience for identifying files in conjunction with filesize. This option was chosen because calculating complete hashes for multi-gigabyte videos can take hours, especially if they are on a device with limited read speed such as a network drive.
 - There are no options beyond MD5-related options, but we could add some.
 - The supported extensions are hardcoded right now. These should be a configurable option.
