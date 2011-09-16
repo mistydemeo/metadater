@@ -23,7 +23,7 @@ class Path < String
 
     # Examine each file in our @@files array, then
     # produce a new array with their metadata
-    videos = files.each.collect { |f| Video.new( f ).to_hash }
+    videos = files.collect { |f| Video.new( f ).to_hash rescue nil }.compact!
 
     # OK, we have our metadata in a pretty object now
     # Write to YAML
