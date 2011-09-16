@@ -55,8 +55,8 @@ class Video
       :video_tracks => info.video.count,
       :audio_tracks => info.audio.count,
       :duration => info.general.duration,
-      :encoded_date => info.general.encoded_date,
-      :modify_date => info.general.tagged_date
+      :encoded_date => (info.general.encoded_date.to_i if info.general.encoded_date),
+      :modify_date => (info.general.tagged_date.to_i if info.general.tagged_date)
     }
 
     # Most videos only contain one video track.
@@ -79,8 +79,8 @@ class Video
       :bitrate_mode => info.video.bit_rate_mode,
       :colour_space => info.video[0]["color_space"],
       :chroma_subsampling => info.video[0]["chroma_subsampling"],
-      :track_create_date => info.video.encoded_date,
-      :track_modify_date => info.video.tagged_date
+      :track_create_date => (info.video.encoded_date.to_i if info.video.encoded_date),
+      :track_modify_date => (info.video.tagged_date.to_i if info.video.tagged_date)
     }
     end
 
@@ -97,16 +97,16 @@ class Video
       :bit_depth => info.audio[0]["bit_depth"],
       :bitrate => info.audio[0].bit_rate,
       :bitrate_mode => info.audio[0].bit_rate_mode,
-      :track_create_date => info.audio[0].encoded_date,
-      :track_modify_date => info.audio[0].tagged_date
+      :track_create_date => (info.audio[0].encoded_date.to_i if info.audio[0].encoded_date),
+      :track_modify_date => (info.audio[0].tagged_date.to_i if info.audio[0].tagged_date)
     }
     end
 
     @software  = {
       :writing_library => info.general.writing_library,
       :writing_history => exif.history_changed,
-      :writing_history_date => exif.history_when,
-      :software => exif.history_software_agent
+      :writing_history_date => (exif.history_when.to_i if exif.history_when),
+      :software => (exif.history_software_agent if exif.history_software_agent)
     }
 
     @hardware = {
